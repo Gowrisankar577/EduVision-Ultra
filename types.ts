@@ -3,6 +3,8 @@ export interface Message {
   role: 'user' | 'model';
   text: string;
   images?: string[]; // Base64 strings
+  generatedImage?: string; // Base64 string for AI generated image
+  generatedVideo?: string; // URL/Blob for AI generated video
   timestamp: number;
   isError?: boolean;
 }
@@ -75,3 +77,17 @@ export type InteractiveBlock =
   | { type: 'flashcards'; data: FlashcardData }
   | { type: 'whiteboard'; data: WhiteboardData }
   | { type: 'study_plan'; data: StudyPlanData };
+
+export type ImageSize = '1K' | '2K' | '4K';
+export type VideoAspectRatio = '16:9' | '9:16';
+
+declare global {
+  interface AIStudio {
+    hasSelectedApiKey: () => Promise<boolean>;
+    openSelectKey: () => Promise<void>;
+  }
+
+  interface Window {
+    aistudio?: AIStudio;
+  }
+}
